@@ -31,7 +31,7 @@ public class Dialog  {
      * @param title Title to used by the message dialog
      * @param dialogIcon Type of icon to use
      */
-    public static void showDialog(Window owner,String message,String title,DialogIcon dialogIcon){
+    public static void showMessageDialog(Window owner,String message,String title,DialogIcon dialogIcon){
        final Stage stage= new Stage(StageStyle.UTILITY);
         
         VBox root= new VBox(5);

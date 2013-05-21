@@ -62,7 +62,7 @@ public class MyProfileController implements Initializable {
                 prstmt.setString(3, note);
                 prstmt.setInt(4, userID);
                 prstmt.execute();
-                Dialog.showDialog(root.getScene().getWindow(), "Detials Updated", "Update", DialogIcon.INFORMATION);
+                Dialog.showMessageDialog(root.getScene().getWindow(), "Detials Updated", "Update", DialogIcon.INFORMATION);
             } catch (SQLException ex) {
                 Logger.getLogger(MyProfileController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -88,7 +88,7 @@ public class MyProfileController implements Initializable {
     private boolean validateInputFields(){
         Window owner=root.getScene().getWindow();
         if(txtUsername.getText().isEmpty()){
-                Dialog.showDialog(owner, "Please Username", "Missing details", DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner, "Please Username", "Missing details", DialogIcon.WARNING);
                 txtUsername.requestFocus();
                 return false;
             }
@@ -96,30 +96,30 @@ public class MyProfileController implements Initializable {
         passFields.addAll(pfCurrentPass,pfNewPass,pfRetypePass);
         for (PasswordField passwordField : passFields) {
             if(passwordField.getText().isEmpty()){
-                Dialog.showDialog(owner, "Please enter required information", "Missing details", DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner, "Please enter required information", "Missing details", DialogIcon.WARNING);
                 passwordField.requestFocus();
                 return false;
             }
         }
         if(txtUsername.getText().length()>20 || txtUsername.getText().length()<4){
-            Dialog.showDialog(owner, "Sorry your Username has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid input",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Sorry your Username has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid input",DialogIcon.WARNING);
             txtUsername.requestFocus();
             return false;
         }
         for (PasswordField passwordField : passFields) {
             if(passwordField.getText().length()>20 || passwordField.getText().length()<4){
-                Dialog.showDialog(owner, "Sorry your Password has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid Input",DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner, "Sorry your Password has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid Input",DialogIcon.WARNING);
                 passwordField.requestFocus();
                 return false;
             }
         }
         if(!pfCurrentPass.getText().equals(pass)){
-            Dialog.showDialog(owner, "Sorry the Current Password is incorrect", "Invalid Password", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Sorry the Current Password is incorrect", "Invalid Password", DialogIcon.WARNING);
             pfCurrentPass.requestFocus();
             return false;
         }
         if(!pfNewPass.getText().equals(pfRetypePass.getText())){
-            Dialog.showDialog(owner, "Your Retype Password does not match New Password", "No Match", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Your Retype Password does not match New Password", "No Match", DialogIcon.WARNING);
             pfRetypePass.requestFocus();
             return false;
         }

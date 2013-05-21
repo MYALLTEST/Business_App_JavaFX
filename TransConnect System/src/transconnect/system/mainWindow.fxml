@@ -56,26 +56,32 @@
     <URL value="@main.css" />
   </stylesheets>
   <top>
-    <MenuBar>
+    <MenuBar focusTraversable="true">
       <menus>
         <Menu mnemonicParsing="false" text="File">
           <items>
             <MenuItem mnemonicParsing="false" text="Close" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Vehicle">
+        <Menu mnemonicParsing="true" text="_Vehicles">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#showVehicles" text="Add New Vehicle" />
             <MenuItem mnemonicParsing="false" text="View Vehicle Schedule" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="System">
+        <Menu mnemonicParsing="true" text="_Drivers">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Add New Driver" />
+            <MenuItem mnemonicParsing="false" text="View Schedule" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="true" text="_System">
           <items>
             <MenuItem mnemonicParsing="false" onAction="#showUsersProfile" text="Users Profile" />
             <MenuItem mnemonicParsing="false" onAction="#showMyProfile" text="My Profile" />
           </items>
         </Menu>
-        <Menu mnemonicParsing="false" text="Help">
+        <Menu mnemonicParsing="true" text="_Help">
           <items>
             <MenuItem mnemonicParsing="false" text="Help" />
             <MenuItem mnemonicParsing="false" onAction="#logout" text="Log Out" />

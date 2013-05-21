@@ -53,7 +53,7 @@ public class LoginController implements Initializable {
     }    
     @FXML private void login(ActionEvent event){
         if(count>3){
-            Dialog.showDialog(root.getScene().getWindow(), "Sorry you have exceed Number of trials\nSystem will exit now", "Number of Trials Exceed",DialogIcon.INFORMATION);
+            Dialog.showMessageDialog(root.getScene().getWindow(), "Sorry you have exceed Number of trials\nSystem will exit now", "Number of Trials Exceed",DialogIcon.INFORMATION);
             Platform.exit();
         }
         if(validateInput()){
@@ -77,11 +77,11 @@ public class LoginController implements Initializable {
                     Dimension screenSize= java.awt.Toolkit.getDefaultToolkit().getScreenSize();
                     stage.setWidth(screenSize.getWidth());
                     stage.setHeight(screenSize.getHeight());
-                    Dialog.showDialog(root.getScene().getWindow(), "Welcome "+rs.getString("FirstName")+" "+rs.getString("LastName"), "Welcome",DialogIcon.INFORMATION);
+                    Dialog.showMessageDialog(root.getScene().getWindow(), "Welcome "+rs.getString("FirstName")+" "+rs.getString("LastName"), "Welcome",DialogIcon.INFORMATION);
                     root.getScene().getWindow().hide();
                     stage.show();
                 }else{
-                    Dialog.showDialog(root.getScene().getWindow(), "Wrong Username or Password", "Wrong Details",DialogIcon.WARNING);
+                    Dialog.showMessageDialog(root.getScene().getWindow(), "Wrong Username or Password", "Wrong Details",DialogIcon.WARNING);
                     txtUser.setText("");
                     txtPass.setText("");
                     lblTitle.requestFocus();
@@ -99,22 +99,22 @@ public class LoginController implements Initializable {
     private boolean validateInput(){
         Window owner=root.getScene().getWindow();
         if(txtUser.getText().isEmpty()){
-            Dialog.showDialog(owner, "Missing Details", "Missing Username",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Missing Details", "Missing Username",DialogIcon.WARNING);
             txtUser.requestFocus();
             return false;
         }
         if(txtPass.getText().isEmpty()){
-            Dialog.showDialog(owner, "Missing Details", "Missing Password",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Missing Details", "Missing Password",DialogIcon.WARNING);
             txtPass.requestFocus();
             return false;
         }
         if(txtUser.getText().length()>20){
-            Dialog.showDialog(owner, "Invalid Input", "Username can not exceed 20 Characters",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Invalid Input", "Username can not exceed 20 Characters",DialogIcon.WARNING);
             txtUser.requestFocus();
             return false;
         }
         if(txtPass.getText().length()>20){
-            Dialog.showDialog(owner, "Invalid Input", "Username can not exceed 20 Characters",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Invalid Input", "Username can not exceed 20 Characters",DialogIcon.WARNING);
             txtPass.requestFocus();
             return false;
         }

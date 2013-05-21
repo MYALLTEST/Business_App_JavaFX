@@ -126,7 +126,7 @@ public class VehicleController implements Initializable {
                prstmt.setString(5, status);
                prstmt.setString(6, taComment.getText());
                prstmt.execute();
-               Dialog.showDialog(root.getScene().getWindow(), "New Vehicle Added", "Details Saved", DialogIcon.INFORMATION);
+               Dialog.showMessageDialog(root.getScene().getWindow(), "New Vehicle Added", "Details Saved", DialogIcon.INFORMATION);
                btnAdd.setDisable(true);
                loadData();
            } catch (SQLException ex) {
@@ -138,36 +138,36 @@ public class VehicleController implements Initializable {
         Window owner=root.getScene().getWindow();
         for (TextField textField : txtFields) {
             if(textField.getText().isEmpty()){
-                Dialog.showDialog(owner, "Missing Details", "Invalid Input", DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner, "Missing Details", "Invalid Input", DialogIcon.WARNING);
                 textField.requestFocus();
                 return false;
             }
         }
         if(txtReg.getText().length()>8){
-            Dialog.showDialog(owner, "Registration Number can not exceed 8 characters", "Invalid input", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Registration Number can not exceed 8 characters", "Invalid input", DialogIcon.WARNING);
             txtReg.requestFocus();
             return false;
         }
         txtReg.setText(txtReg.getText().toUpperCase());
         if(txtModel.getText().length()>15){
-            Dialog.showDialog(owner, "Model name can not exceed 15 characters", "Invalid input", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Model name can not exceed 15 characters", "Invalid input", DialogIcon.WARNING);
             txtModel.requestFocus();
             return false;
         }
         if(taComment.getText().length()>300){
-            Dialog.showDialog(owner, "Comment can not exceed 300 characters", "Invalid input", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Comment can not exceed 300 characters", "Invalid input", DialogIcon.WARNING);
             taComment.requestFocus();
             return false;
         }
         try {
             num = Integer.parseInt(txtNumSeats.getText());
         } catch (NumberFormatException numberFormatException) {
-            Dialog.showDialog(owner, "Invalid Number of Seats", "Inavlid Input", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Invalid Number of Seats", "Inavlid Input", DialogIcon.WARNING);
             txtNumSeats.requestFocus();
             return false;
         }
         if(num>65){
-            Dialog.showDialog(owner, "Number of Seats can not exceed 65 seats", "Invalid Input", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Number of Seats can not exceed 65 seats", "Invalid Input", DialogIcon.WARNING);
             txtNumSeats.requestFocus();
             return false;
         }
@@ -185,7 +185,7 @@ public class VehicleController implements Initializable {
                 prstmt.setString(1, txtReg.getText());
                 ResultSet rs = prstmt.executeQuery();
                 if (rs.next()) {
-                    Dialog.showDialog(root.getScene().getWindow(), "Sorry the Registration entered already Exist", "Registration Exists", DialogIcon.INFORMATION);
+                    Dialog.showMessageDialog(root.getScene().getWindow(), "Sorry the Registration entered already Exist", "Registration Exists", DialogIcon.INFORMATION);
                     txtReg.requestFocus();
                     return false;
                 }
@@ -210,7 +210,7 @@ public class VehicleController implements Initializable {
 
     @FXML private void updateInformation(ActionEvent event){
         if(tv.getSelectionModel().isEmpty()){
-            Dialog.showDialog(root.getScene().getWindow(), "Please select Vehicle to View or Update Information", "None Selected", DialogIcon.ERROR);
+            Dialog.showMessageDialog(root.getScene().getWindow(), "Please select a Vehicle to View or Update Information", "None Selected", DialogIcon.ERROR);
             return;
         }
        Vehicle v=tv.getSelectionModel().getSelectedItem();
@@ -255,7 +255,7 @@ public class VehicleController implements Initializable {
                prstmt.setString(5, taComment.getText());
                prstmt.setInt(6, vehicleID);
                prstmt.execute();
-               Dialog.showDialog(root.getScene().getWindow(), "Details Updated", "Updated", DialogIcon.INFORMATION);
+               Dialog.showMessageDialog(root.getScene().getWindow(), "Details Updated", "Updated", DialogIcon.INFORMATION);
                loadData();
            } catch (SQLException ex) {
                Logger.getLogger(VehicleController.class.getName()).log(Level.SEVERE, null, ex);

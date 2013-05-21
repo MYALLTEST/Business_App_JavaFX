@@ -138,7 +138,7 @@ public class FirstAccountController implements Initializable {
                 prstmt.setString(11, note);
                 prstmt.setString(12, "Self");
                 prstmt.execute();
-                Dialog.showDialog(root.getScene().getWindow(), "New System Administrator Account Created", "New User Added", DialogIcon.INFORMATION);
+                Dialog.showMessageDialog(root.getScene().getWindow(), "New System Administrator Account Created", "New User Added", DialogIcon.INFORMATION);
                 btnSave.setDisable(true);
                 btnContinue.setDisable(false);
                 UserProfile.setName(txtfn.getText()+" "+txtln.getText());
@@ -186,7 +186,7 @@ public class FirstAccountController implements Initializable {
         for (TextField textField : inputFileds) {
             if(textField.getText().isEmpty()){
                 //set css stroke
-                Dialog.showDialog(owner,"Missing Details","Invalid Input",DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner,"Missing Details","Invalid Input",DialogIcon.WARNING);
                 textField.requestFocus();
                 return false;
             }
@@ -195,23 +195,23 @@ public class FirstAccountController implements Initializable {
         for (TextField textField : inputFileds) {
             if(textField.getText().length()>30){
                 //set css stroke
-                Dialog.showDialog(owner,"Sorry the text you entered can not be greater that 30 characters","Text too Long",DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner,"Sorry the text you entered can not be greater that 30 characters","Text too Long",DialogIcon.WARNING);
                 textField.requestFocus();
                 return false;
             }
         }
         if(username.getText().length()>20 || username.getText().length()<4){
-            Dialog.showDialog(owner, "Sorry your Username has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid input",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Sorry your Username has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid input",DialogIcon.WARNING);
             username.requestFocus();
             return false;
         }
         if(pass.getText().isEmpty()){
-            Dialog.showDialog(owner,"Missing Details","Invalid Input",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner,"Missing Details","Invalid Input",DialogIcon.WARNING);
             pass.requestFocus();
             return false;
         }
         if(pass.getText().length()>20 || pass.getText().length()<4){
-            Dialog.showDialog(owner, "Sorry your Password has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid Input",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Sorry your Password has to be More than 3 Characters and can not Exceed 20 Charchaters", "Invalid Input",DialogIcon.WARNING);
             pass.requestFocus();
             return false;
         }
@@ -222,30 +222,30 @@ public class FirstAccountController implements Initializable {
             Calendar cal=Calendar.getInstance();
             int year=Integer.parseInt(yearFormat.format(date));
             if (year <= 1900 || year>cal.get(Calendar.YEAR)) {
-                Dialog.showDialog(owner,"Invalid Date of Birth", "Invalid Input",DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner,"Invalid Date of Birth", "Invalid Input",DialogIcon.WARNING);
                 txtDOB.requestFocus();
                 return false;
             }
             String initialEntry=txtDOB.getText();
             String parsedValue=dateFormat.format(date);
             if(!initialEntry.equals(parsedValue)){
-               Dialog.showDialog(owner, "Note your Date of Birth has been corrected", "Date Corrected",DialogIcon.INFORMATION);
+               Dialog.showMessageDialog(owner, "Note your Date of Birth has been corrected", "Date Corrected",DialogIcon.INFORMATION);
             }
             txtDOB.setText(dateFormat.format(date));
         } catch (ParseException  ex) {
-            Dialog.showDialog(owner,"Invalid Date of Birth", "Invalid Input",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner,"Invalid Date of Birth", "Invalid Input",DialogIcon.WARNING);
             txtDOB.requestFocus();
             return false;
         }
         try {
             int mobile=Integer.parseInt(txtMobile.getText());
         } catch (NumberFormatException e) {
-            Dialog.showDialog(owner, "Invalid Mobile Number", "Invalid data",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Invalid Mobile Number", "Invalid data",DialogIcon.WARNING);
             txtMobile.requestFocus();
             return false;
         }
         if(txtMobile.getText().length() != 10){
-            Dialog.showDialog(owner, "Sorry your Mobile Number is invalid", "Invalid input",DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Sorry your Mobile Number is invalid", "Invalid input",DialogIcon.WARNING);
             txtMobile.requestFocus();
             return false;
         }
@@ -254,7 +254,7 @@ public class FirstAccountController implements Initializable {
             prstmt.setString(1, username.getText());
             ResultSet rs=prstmt.executeQuery();
             if(rs.next()){
-                Dialog.showDialog(owner, "Sorry Username already exists\n Please change to different Username", "Username Exists",DialogIcon.WARNING);
+                Dialog.showMessageDialog(owner, "Sorry Username already exists\n Please change to different Username", "Username Exists",DialogIcon.WARNING);
                 username.requestFocus();
                 return false;
             }

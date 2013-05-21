@@ -22,7 +22,7 @@ public class Vehicle {
 
     public Vehicle(int id,int val,String registration,String model,String status,int numSeats,Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("d MMM,yyyy");
-        setVehileID(id);
+        setVehicleID(id);
         setCount(val);
         setRegistration(registration);
         setModel(model);
@@ -30,7 +30,7 @@ public class Vehicle {
         setEntryDate(dateFormat.format(date));
         setNumSeats(numSeats);
     }
-    public IntegerProperty getVechileIDProperty() {
+    public IntegerProperty getVehicleIDProperty() {
         if(vehicleID == null){
             vehicleID = new SimpleIntegerProperty();
         }
@@ -72,8 +72,8 @@ public class Vehicle {
         }
         return entryDate;
     }
-    public final void setVehileID(int id){
-       getVechileIDProperty().setValue(id);
+    public final void setVehicleID(int id){
+       getVehicleIDProperty().setValue(id);
     }
     public final void setCount(int val){
        getCountProperty().setValue(val);
@@ -94,7 +94,7 @@ public class Vehicle {
         getEntryDateProperty().setValue(str);
     }
     public int getVehicleID(){
-        return getVechileIDProperty().getValue();
+        return getVehicleIDProperty().getValue();
     }
     public int getCount(){
         return getCountProperty().getValue();
