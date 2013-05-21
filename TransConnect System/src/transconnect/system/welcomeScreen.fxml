@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="386.0" prefWidth="541.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.WelcomeScreen">
+  <children>
+    <Group id="Group" style="" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+      <children>
+        <Rectangle fx:id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" strokeWidth="0.0" style="" width="541.0" />
+        <Line fx:id="line" endX="541.0" layoutX="0.0" layoutY="68.0" startX="0.0" />
+        <Label alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="194.0" styleClass="form-title" text="Welcome Screen">
+          <font>
+            <Font name="Tahoma" size="22.0" />
+          </font>
+        </Label>
+      </children>
+    </Group>
+    <Separator prefWidth="533.0" AnchorPane.bottomAnchor="68.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" />
+    <Label text="Creating Tables....." AnchorPane.bottomAnchor="51.0" AnchorPane.leftAnchor="25.0" />
+    <Label id="btnNext" fx:id="lblMsg" prefWidth="241.5" text="" AnchorPane.bottomAnchor="28.0" AnchorPane.leftAnchor="25.0" />
+    <Button id="lblMsg" fx:id="btnNext" mnemonicParsing="false" onAction="#next" prefWidth="58.0" text="Next" AnchorPane.bottomAnchor="22.0" AnchorPane.rightAnchor="22.0" />
+  </children>
+  <stylesheets>
+    <URL value="@main.css" />
+  </stylesheets>
+</AnchorPane>

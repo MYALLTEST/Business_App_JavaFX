@@ -1,0 +1,28 @@
+.root {
+    -fx-background-color: whitesmoke;
+    /*-fx-font-family: "Tahoma";*/
+    -fx-font: normal 12px "Tahoma";
+}
+.button, .toggle-button, .choice-box {
+    -fx-background-radius: 1, 1, 0, -1;
+    -fx-padding: 3px 10px 3px 10px;
+}
+.rect{
+    -fx-stroke-width: 0;
+    -fx-fill: #dfdfdf;
+}
+.login-TextField{
+   -fx-font-size: 18px;
+}
+.form-title{
+   -fx-font-size: 22px;
+}
+.notification{
+    -fx-base: #4CCADF;
+    -fx-fill: linear-gradient( to bottom, derive(-fx-color, 34.0%) 0%, derive(-fx-color, -18.0%) 100%);
+    -fx-stroke-width: 0;
+}
+.notification-Title{
+    -fx-font: bold 12px "Tahoma";
+    /*-fx-font-weight:bold;*/
+}

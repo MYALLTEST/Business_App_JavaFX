@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" minWidth="540.0" prefHeight="386.0" prefWidth="541.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.FirstAccountController">
+  <children>
+    <Group id="Group" layoutX="1.0" layoutY="1.0" scaleX="1.0" scaleY="1.0">
+      <children>
+        <Rectangle fx:id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" styleClass="rect" width="541.0" />
+        <Label alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="343.0" styleClass="form-title" text="System Administrator Account">
+          <font>
+            <Font name="Tahoma" size="22.0" />
+          </font>
+        </Label>
+        <Line fx:id="line" endX="541.0" layoutX="0.0" layoutY="68.0" startX="0.0" />
+      </children>
+    </Group>
+    <HBox id="HBox" alignment="CENTER" layoutX="11.0" layoutY="83.0" prefHeight="41.0" spacing="5.0">
+      <children>
+        <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
+          <children>
+            <Label prefWidth="75.00009999999747" text="First Name">
+              <labelFor>
+                <TextField fx:id="txtfn" prefWidth="138.0" />
+              </labelFor>
+            </Label>
+            <fx:reference source="txtfn" />
+          </children>
+        </VBox>
+        <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
+          <children>
+            <Label prefWidth="75.0" text="Last Name">
+              <labelFor>
+                <TextField fx:id="txtln" prefWidth="138.0" />
+              </labelFor>
+            </Label>
+            <fx:reference source="txtln" />
+          </children>
+        </VBox>
+        <VBox id="VBox" alignment="CENTER_LEFT" spacing="5.0">
+          <children>
+            <Label prefWidth="75.0" text="Surname">
+              <labelFor>
+                <TextField fx:id="txtsurname" prefWidth="138.0" />
+              </labelFor>
+            </Label>
+            <fx:reference source="txtsurname" />
+          </children>
+        </VBox>
+      </children>
+    </HBox>
+    <GridPane id="GridPane" hgap="4.0" layoutX="14.0" layoutY="135.0" prefHeight="96.0" prefWidth="286.0" vgap="4.0">
+      <children>
+        <Label text="Date of Birth" GridPane.columnIndex="0" GridPane.rowIndex="0">
+          <labelFor>
+            <TextField fx:id="txtDOB" prefWidth="173.0" promptText="dd/mm/yyyy" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+          </labelFor>
+        </Label>
+        <Label text="Place of Residence" GridPane.columnIndex="0" GridPane.rowIndex="1">
+          <labelFor>
+            <TextField fx:id="txtResidence" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+          </labelFor>
+        </Label>
+        <Label text="Mobile Number" GridPane.columnIndex="0" GridPane.rowIndex="2">
+          <labelFor>
+            <TextField id="txtTelephone" fx:id="txtMobile" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+          </labelFor>
+        </Label>
+        <fx:reference source="txtDOB" />
+        <fx:reference source="txtResidence" />
+        <fx:reference source="txtMobile" />
+        <Label text="ID/Passport Number" GridPane.columnIndex="0" GridPane.rowIndex="3">
+          <labelFor>
+            <TextField id="txtTelephone" fx:id="txtID" prefWidth="173.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+          </labelFor>
+        </Label>
+        <fx:reference source="txtID" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <TextField fx:id="username" layoutX="128.0" layoutY="242.0" prefHeight="21.0" prefWidth="173.0" />
+    <Label labelFor="$username" layoutX="15.0" layoutY="242.0" prefHeight="15.0" prefWidth="75.0" text="Username" />
+    <Label layoutX="15.0" layoutY="271.0" prefHeight="15.0" prefWidth="72.0" text="Password">
+      <labelFor>
+        <PasswordField fx:id="pass" layoutX="128.0" layoutY="268.0" prefHeight="21.0" prefWidth="173.0" text="1234" />
+      </labelFor>
+    </Label>
+    <Label id="lblUser" fx:id="lblUsername" layoutX="313.0" layoutY="245.0" prefHeight="15.0" prefWidth="157.0" text="" />
+    <Label id="lblAdmin" fx:id="lblPass" layoutX="313.0" layoutY="271.0" prefHeight="15.0" prefWidth="157.0" text="Using default Password" />
+    <fx:reference source="pass" />
+    <Label layoutX="15.0" layoutY="299.0" text="Account Type" />
+    <Label layoutX="129.0" layoutY="299.0" text="System Administrator" />
+    <HBox id="HBox" alignment="CENTER" layoutX="355.0" layoutY="344.0" spacing="5.0">
+      <children>
+        <Button fx:id="btnSave" mnemonicParsing="false" onAction="#save" text="Save" />
+        <Button fx:id="btnClear" mnemonicParsing="false" onAction="#clear" text="Clear" />
+        <Button fx:id="btnContinue" disable="true" mnemonicParsing="false" onAction="#openMainWindow" text="Continue" />
+      </children>
+    </HBox>
+  </children>
+  <stylesheets>
+    <URL value="@main.css" />
+  </stylesheets>
+</AnchorPane>

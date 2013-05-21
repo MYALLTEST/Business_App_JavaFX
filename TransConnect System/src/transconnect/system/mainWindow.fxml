@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.paint.*?>
+<?import javafx.scene.shape.*?>
+
+<BorderPane id="BorderPane" fx:id="root" disable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.MainWindowController">
+  <bottom>
+    <ToolBar fx:id="taskBar" onMouseEntered="#taskBarMouseEnter" onMouseExited="#taskBarMouseExit">
+      <items>
+        <ImageView fx:id="iv" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="lblUser" onMouseClicked="#userShowProfile" prefWidth="240.0" text="" />
+      </items>
+    </ToolBar>
+  </bottom>
+  <center>
+    <AnchorPane prefHeight="200.0" prefWidth="200.0">
+      <children>
+        <Group id="Group" fx:id="notification" opacity="0.0" rotate="0.0" AnchorPane.bottomAnchor="6.0" AnchorPane.rightAnchor="7.0">
+          <children>
+            <Rectangle id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="141.0" layoutX="0.0" layoutY="0.0" stroke="BLACK" strokeType="INSIDE" styleClass="notification" width="295.0" />
+            <ImageView fx:id="close" fitHeight="20.0" fitWidth="20.0" layoutX="274.0" layoutY="1.0" onMouseClicked="#hideNotification" onMouseEntered="#closeMouseEnter" onMouseExited="#closeMouseExit" pickOnBounds="true" preserveRatio="true">
+              <effect>
+                <DropShadow />
+              </effect>
+              <image>
+                <Image url="@../../resources/cross.png" />
+              </image>
+            </ImageView>
+            <Label fx:id="lblTitle" layoutX="8.0" layoutY="13.0" prefHeight="23.0" prefWidth="256.0" styleClass="notification-Title" text="Title">
+              <graphic>
+                <ImageView fx:id="messageIcon" fitHeight="26.25" fitWidth="26.25" mouseTransparent="true" pickOnBounds="true" preserveRatio="true">
+                  <image>
+                    <Image url="@../../resources/warning.png" />
+                  </image>
+                </ImageView>
+              </graphic>
+            </Label>
+            <Label fx:id="lblMsg" alignment="TOP_LEFT" layoutX="9.0" layoutY="39.0" prefHeight="91.75" prefWidth="285.0" text="Message" wrapText="true" />
+          </children>
+          <effect>
+            <DropShadow spread="0.31746031746031744" />
+          </effect>
+        </Group>
+      </children>
+    </AnchorPane>
+  </center>
+  <stylesheets>
+    <URL value="@main.css" />
+  </stylesheets>
+  <top>
+    <MenuBar>
+      <menus>
+        <Menu mnemonicParsing="false" text="File">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Close" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Vehicle">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#showVehicles" text="Add New Vehicle" />
+            <MenuItem mnemonicParsing="false" text="View Vehicle Schedule" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="System">
+          <items>
+            <MenuItem mnemonicParsing="false" onAction="#showUsersProfile" text="Users Profile" />
+            <MenuItem mnemonicParsing="false" onAction="#showMyProfile" text="My Profile" />
+          </items>
+        </Menu>
+        <Menu mnemonicParsing="false" text="Help">
+          <items>
+            <MenuItem mnemonicParsing="false" text="Help" />
+            <MenuItem mnemonicParsing="false" onAction="#logout" text="Log Out" />
+            <MenuItem mnemonicParsing="false" text="About" />
+          </items>
+        </Menu>
+      </menus>
+    </MenuBar>
+  </top>
+</BorderPane>

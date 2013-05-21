@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="261.0" prefWidth="396.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.LoginController">
+  <children>
+    <Group id="Group" layoutX="0.0" layoutY="0.0">
+      <children>
+        <Rectangle id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" styleClass="rect" width="397.0" />
+        <Label fx:id="lblTitle" alignment="CENTER_LEFT" focusTraversable="true" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="138.0" styleClass="form-title" text="Login">
+          <font>
+            <Font name="Tahoma" size="22.0" />
+          </font>
+        </Label>
+        <Line endX="397.0" layoutX="0.0" layoutY="68.0" startX="0.0" />
+      </children>
+    </Group>
+    <TextField fx:id="txtUser" layoutX="83.0" layoutY="98.0" prefHeight="33.0" prefWidth="208.0" promptText="Username" styleClass="login-TextField">
+      <tooltip>
+        <Tooltip text="Set Username">
+          <font>
+            <Font size="14.0" />
+          </font>
+        </Tooltip>
+      </tooltip>
+    </TextField>
+    <PasswordField fx:id="txtPass" layoutX="83.0" layoutY="138.0" prefHeight="33.0" prefWidth="208.0" promptText="Password" styleClass="login-TextField">
+      <tooltip>
+        <Tooltip text="Set Password" />
+      </tooltip>
+    </PasswordField>
+    <Button defaultButton="true" layoutX="83.0" layoutY="191.0" mnemonicParsing="false" onAction="#login" prefHeight="33.0" prefWidth="98.0" text="Login">
+      <font>
+        <Font name="Tahoma" size="16.0" fx:id="x1" />
+      </font>
+    </Button>
+    <Button font="$x1" layoutX="193.0" layoutY="190.0" mnemonicParsing="false" onAction="#cancel" prefHeight="33.0" prefWidth="98.0" text="Cancel" />
+  </children>
+  <stylesheets>
+    <URL value="@main.css" />
+  </stylesheets>
+</AnchorPane>

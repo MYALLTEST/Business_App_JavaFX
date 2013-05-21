@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" minWidth="443.5" prefHeight="295.0" prefWidth="505.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.MyProfileController">
+  <children>
+    <Group id="Group" layoutX="0.0" layoutY="0.0" scaleX="1.0" scaleY="1.0">
+      <children>
+        <Rectangle id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" styleClass="rect" width="505.0" />
+        <Label alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="343.0" styleClass="form-title" text="My Profile">
+          <font>
+            <Font name="Tahoma" size="22.0" />
+          </font>
+        </Label>
+        <Line id="line" endX="505.0" layoutX="0.0" layoutY="68.0" startX="0.0" />
+      </children>
+    </Group>
+    <Label layoutX="14.0" layoutY="87.0" text="Name" />
+    <Label fx:id="lblName" layoutX="110.0" layoutY="87.0" prefWidth="216.0" text="Label" />
+    <Label layoutX="14.0" layoutY="107.0" text="Account Type" />
+    <Label fx:id="lblType" layoutX="110.0" layoutY="107.0" prefWidth="200.0" text="Label" />
+    <GridPane id="GridPane" hgap="2.0" layoutX="14.0" layoutY="129.0" vgap="3.0">
+      <children>
+        <Label text="Username" GridPane.columnIndex="0" GridPane.rowIndex="0" />
+        <Label text="Current Password" GridPane.columnIndex="0" GridPane.rowIndex="1" />
+        <Label text="New Password" GridPane.columnIndex="0" GridPane.rowIndex="2" />
+        <TextField fx:id="txtUsername" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+        <Label text="Retype Password" GridPane.columnIndex="0" GridPane.rowIndex="3" />
+        <PasswordField fx:id="pfCurrentPass" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+        <PasswordField fx:id="pfNewPass" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+        <PasswordField fx:id="pfRetypePass" prefWidth="200.0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+      </children>
+      <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+        <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" />
+      </columnConstraints>
+      <rowConstraints>
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+        <RowConstraints minHeight="10.0" vgrow="SOMETIMES" />
+      </rowConstraints>
+    </GridPane>
+    <Button defaultButton="true" layoutX="436.0" layoutY="255.0" mnemonicParsing="false" onAction="#update" text="Update" />
+  </children>
+  <stylesheets>
+    <URL value="@main.css" />
+  </stylesheets>
+</AnchorPane>
