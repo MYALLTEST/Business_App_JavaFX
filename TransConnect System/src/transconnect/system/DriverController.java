@@ -18,14 +18,16 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
+import javafx.scene.control.RadioButton;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TabPane;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextField;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -46,7 +48,7 @@ public class DriverController implements Initializable {
     @FXML private Label lblEntryDate;
     @FXML private Button btnAdd;
     @FXML private Button btnUpdate;
-    @FXML private CheckBox cbActive;
+    @FXML private RadioButton rdActive;
     @FXML private Tab addNewTab;
     @FXML private TabPane tabPane;
     @FXML private AnchorPane root;
@@ -86,7 +88,6 @@ public class DriverController implements Initializable {
         });
         dateFormat= new SimpleDateFormat("d MMMM, yyyy");
         lblEntryDate.setText(dateFormat.format(cal.getTime()));
-        cbActive.setAllowIndeterminate(false);
         
         //configure table
         colID.setCellValueFactory(new PropertyValueFactory<Driver,Integer>("driverID"));
@@ -95,13 +96,16 @@ public class DriverController implements Initializable {
         colStatus.setCellValueFactory(new PropertyValueFactory<Driver,String>("status"));
         colEntryDate.setCellValueFactory(new PropertyValueFactory<Driver,String>("entryDate"));
         tv.setItems(data);
+        ImageView iv= new ImageView(new Image(DriverController.class.getResourceAsStream("/resources/info.png")));
+        Label tableMessage= new Label("No records Found", iv);
+        tv.setPlaceholder(tableMessage);
         
-        
+        loadData();
     }
     @FXML private void add(ActionEvent event){
-        String status="deactive";
-        if(cbActive.isSelected()){
-            status="active";
+        String status="Not Active";
+        if(rdActive.isSelected()){
+            status="Active";
         }
         java.sql.Date entryDate= new java.sql.Date(cal.getTimeInMillis());
         if(validateInputFields()){
@@ -117,6 +121,7 @@ public class DriverController implements Initializable {
                 prstmt.execute();
                 Dialog.showMessageDialog(root.getScene().getWindow(), "New Driver Added", "Details Saved", DialogIcon.INFORMATION);
                 btnAdd.setDisable(true);
+                loadData();
             } catch (SQLException ex) {
                 Logger.getLogger(DriverController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -128,15 +133,15 @@ public class DriverController implements Initializable {
         for (TextField textField : textFields) {
             textField.setText("");
         }
-        cbActive.setSelected(true);
+        rdActive.setSelected(true);
         btnUpdate.setDisable(true);
         btnAdd.setDisable(false);
         txtfn.requestFocus();
     }
     @FXML private void update(ActionEvent event){
-        String status="deactive";
-        if(cbActive.isSelected()){
-            status="active";
+        String status="Not Active";
+        if(rdActive.isSelected()){
+            status="Active";
         }
         if(validateInputFields()){
             String sql="update drivers set FirstName=?,LastName=?,Surname=?,Residence=?,Mobile=?,Status=? where DriverID=?";
@@ -150,6 +155,7 @@ public class DriverController implements Initializable {
                 prstmt.setInt(7, driverID);
                 prstmt.execute();
                 Dialog.showMessageDialog(root.getScene().getWindow(), "Details Updated", "Update", DialogIcon.INFORMATION);
+                loadData();
             } catch (SQLException ex) {
                 Logger.getLogger(DriverController.class.getName()).log(Level.SEVERE, null, ex);
             }
@@ -164,6 +170,7 @@ public class DriverController implements Initializable {
         driverID=driver.getDriverID();
         tabPane.getSelectionModel().select(addNewTab);
         btnUpdate.setDisable(false);
+        btnAdd.setDisable(true);
         String sql="select * from drivers where DriverID=?";
         try (PreparedStatement prstmt=con.prepareStatement(sql)){
             prstmt.setInt(1, driverID);
@@ -175,10 +182,10 @@ public class DriverController implements Initializable {
               txtResidence.setText(rs.getString("Residence"));
               txtMobile.setText(rs.getString("Mobile"));
               lblEntryDate.setText(dateFormat.format(rs.getDate("EntryDate")));
-              if(rs.getString("Status").equals("active")){
-                  cbActive.setSelected(true);
+              if(rs.getString("Status").equals("Active")){
+                  rdActive.setSelected(true);
               }else{
-                  cbActive.setSelected(false);
+                  rdActive.setSelected(false);
               }
             }
             rs.close();
@@ -220,7 +227,7 @@ public class DriverController implements Initializable {
             }
         }
         if(txtMobile.getText().length()!=10){
-            Dialog.showMessageDialog(owner, "Please ensure Mobile Number does not Exceed 10 digits", "Invalid Mobile Number", DialogIcon.WARNING);
+            Dialog.showMessageDialog(owner, "Please ensure Mobile Number is only 10 digits", "Invalid Mobile Number", DialogIcon.WARNING);
             txtMobile.requestFocus();
             return false;
         }

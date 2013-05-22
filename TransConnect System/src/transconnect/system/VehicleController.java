@@ -111,9 +111,9 @@ public class VehicleController implements Initializable {
         loadData();
     }
     @FXML private void addNew(ActionEvent event){
-       String status="active";
+       String status="Active";
        if(rdRetired.isSelected()){
-           status="retired";
+           status="Retired";
        }
        if(validateInputFields()){
            java.sql.Date entryDate= new java.sql.Date(date.getTime());
@@ -229,7 +229,7 @@ public class VehicleController implements Initializable {
                 txtNumSeats.setText(Integer.toString(rs.getInt("NumSeats")));
                 lblDate.setText(dateFormat.format(rs.getDate("EntryDate")));
                 taComment.setText(rs.getString("Comment"));
-                if(rs.getString("Status").equals("active")){
+                if(rs.getString("Status").equals("Active")){
                     rdActive.setSelected(true);
                 }else{
                     rdRetired.setSelected(true);
@@ -241,9 +241,9 @@ public class VehicleController implements Initializable {
         }
     }
     @FXML private void update(ActionEvent event){
-        String status="active";
+        String status="Active";
        if(rdRetired.isSelected()){
-           status="retired";
+           status="Retired";
        }
        if(validateInputFields()){
            String sql="update vehicles set Registration=?,Model=?,NumSeats=?,Status=?,Comment=? where VehicleID=?";
