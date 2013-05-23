@@ -58,9 +58,9 @@
   <top>
     <MenuBar focusTraversable="false">
       <menus>
-        <Menu mnemonicParsing="false" text="File">
+        <Menu mnemonicParsing="false" text="Booking">
           <items>
-            <MenuItem mnemonicParsing="false" text="Close" />
+            <MenuItem mnemonicParsing="false" onAction="#showNewBooking" text="New Booking" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Vehicles">

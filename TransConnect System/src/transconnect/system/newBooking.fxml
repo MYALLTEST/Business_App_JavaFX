@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.net.*?>
+<?import java.util.*?>
+<?import javafx.collections.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.NewBookingController">
+  <children>
+    <Group id="Group" layoutX="1.0" layoutY="1.0" scaleX="1.0" scaleY="1.0">
+      <children>
+        <Rectangle fx:id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" styleClass="rect" width="600.0" />
+        <Label alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="343.0" styleClass="form-title" text="New Booking">
+          <font>
+            <Font name="Tahoma" size="22.0" />
+          </font>
+        </Label>
+        <Line fx:id="line" endX="600.0" layoutX="0.0" layoutY="68.0" startX="0.0" />
+      </children>
+    </Group>
+    <Label focusTraversable="true" layoutX="15.0" layoutY="90.0" text="Duration" />
+    <HBox id="HBox" alignment="CENTER" layoutX="15.0" layoutY="109.0" spacing="5.0">
+      <children>
+        <Label text="From" />
+        <TextField fx:id="txtFrom" prefWidth="100.0" promptText="dd/MM/yyyy">
+          <tooltip>
+            <Tooltip text="The start Date eg 24/5/2013" />
+          </tooltip>
+        </TextField>
+        <Label text="To" />
+        <TextField fx:id="txtTo" prefWidth="100.0" promptText="dd/MM/yyyy">
+          <tooltip>
+            <Tooltip text="The end Date eg 27/5/2013" />
+          </tooltip>
+        </TextField>
+        <Label text="Days" />
+        <TextField fx:id="txtNum" prefWidth="100.0">
+          <tooltip>
+            <Tooltip text="Number of Days eg 3" />
+          </tooltip>
+        </TextField>
+      </children>
+    </HBox>
+    <Label layoutX="15.0" layoutY="142.0" text="Number of Seats" />
+    <ChoiceBox fx:id="cbSeater" layoutX="112.0" layoutY="140.0" prefWidth="100.0">
+      <items>
+        <FXCollections fx:factory="observableArrayList">
+          <String fx:value="Item 1" />
+          <String fx:value="Item 2" />
+          <String fx:value="Item 3" />
+        </FXCollections>
+      </items>
+    </ChoiceBox>
+    <Label alignment="CENTER" contentDisplay="LEFT" layoutX="11.0" layoutY="171.0" prefWidth="200.0" text="Available Vehicles" textAlignment="LEFT" underline="false" />
+    <ListView fx:id="vehicleList" layoutX="11.0" layoutY="186.0" prefHeight="142.0" prefWidth="200.0" />
+    <Label alignment="CENTER" layoutX="246.0" layoutY="171.0" prefWidth="200.0" text="Available Drivers" />
+    <ListView layoutX="246.0" layoutY="186.0" prefHeight="142.0" prefWidth="200.0" />
+    <Label layoutX="11.0" layoutY="334.0" text="Please select One Vehicle and One Driver" />
+    <HBox id="HBox" alignment="CENTER" layoutX="427.0" layoutY="363.0" spacing="5.0">
+      <children>
+        <Button defaultButton="true" mnemonicParsing="false" text="Contunie" />
+        <Button mnemonicParsing="false" text="Cancel" />
+      </children>
+    </HBox>
+    <HBox id="HBox" alignment="CENTER" layoutX="11.0" layoutY="363.0" spacing="7.0">
+      <children>
+        <Label text="Vehicle" />
+        <Label prefWidth="147.0" text="Label" />
+        <Label text="Driver" />
+        <Label prefWidth="147.0" text="Label" />
+      </children>
+    </HBox>
+    <Button layoutX="341.0" layoutY="136.0" mnemonicParsing="false" onAction="#loadVehicles" prefHeight="26.0" prefWidth="67.0" text="Search" />
+  </children>
+  <stylesheets>
+    <URL value="@main.css" />
+  </stylesheets>
+</AnchorPane>
