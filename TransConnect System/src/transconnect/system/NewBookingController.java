@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.ResourceBundle;
@@ -48,6 +49,9 @@ public class NewBookingController implements Initializable {
     
     private Connection con;
     private ObservableList<Vehicle> data = FXCollections.observableArrayList();
+    private ArrayList<Integer> vehicleIDList = new ArrayList<>();
+    private Date fromDate,toDate;
+    private int vehicleIndex;
     /**
      * Initializes the controller class.
      */
@@ -91,6 +95,8 @@ public class NewBookingController implements Initializable {
         cbSeater.getSelectionModel().clearAndSelect(0);
     }
     @FXML private void loadVehicles(ActionEvent event){
+        data.clear();
+        vehicleIDList.clear();
         if (validatedInputFields()) {
             System.out.println("we are good");
             String selected = cbSeater.getSelectionModel().getSelectedItem();
@@ -101,16 +107,68 @@ public class NewBookingController implements Initializable {
             try (PreparedStatement prstmt= con.prepareStatement(sql)){
                 prstmt.setInt(1, seats);
                 ResultSet rs= prstmt.executeQuery();
-                int count=1;
-                while (rs.next()) {                    
-                    data.add(new Vehicle(rs.getInt("VehicleID"),count, rs.getString("Registration"), rs.getString("Model"), rs.getString("Status"), rs.getInt("NumSeats"), rs.getDate("EntryDate")));
-                    count++;
+                while (rs.next()) {
+                    vehicleIDList.add(rs.getInt("VehicleID"));
                 }
                 rs.close();
             } catch (SQLException ex) {
                 Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
             }
+            if(!vehicleIDList.isEmpty()){
+                for (int i = 0; i < vehicleIDList.size(); i++) {
+                    Integer id = vehicleIDList.get(i);
+                    vehicleIndex=id;
+                    sql = "select FromDate,ToDate from vehicle_schedule where VehicleID=? order by ToDate desc";
+                    try (PreparedStatement prstmt=con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)){
+                        prstmt.setInt(1, id);
+                        ResultSet rs=prstmt.executeQuery();
+                        CompareDates cd= new CompareDates();
+                        if(rs.next()){
+                            if((cd.greater(fromDate, rs.getDate("ToDate")))){
+                                //allow and exit
+                                addVehicle();
+                                continue;
+                            }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.less(fromDate, rs.getDate("FromDate"))){
+                                find(rs, rs.getRow(), rs.getDate("FromDate"));
+                            }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.greater(fromDate, rs.getDate("FromDate"))){
+                                //do not allow
+                            }
+                        }else{
+                            addVehicle();
+                        }
+                        rs.close();
+                    } catch (SQLException ex) {
+                        Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                }
+            }
         }
+    }
+    private void find(ResultSet rs,int index,Date prevDate) throws SQLException{
+        if(rs.absolute(index)){
+            CompareDates cd= new CompareDates();
+            if(cd.greater(fromDate, rs.getDate("ToDate")) && cd.less(toDate, prevDate)){
+                //allow and exit
+                addVehicle();
+            }else if(cd.less(toDate, rs.getDate("FromDate"))){
+                find(rs, index+1, rs.getDate("FromDate"));
+            }
+        }
+    }
+    private void addVehicle(){
+        String sql="select * from vehicles where VehicleID=?";
+            try (PreparedStatement prstmt= con.prepareStatement(sql)){
+                prstmt.setInt(1, vehicleIndex);
+            try (ResultSet rs = prstmt.executeQuery()) {
+                int count=1;
+                while (rs.next()) {                    
+                    data.add(new Vehicle(rs.getInt("VehicleID"),count, rs.getString("Registration"), rs.getString("Model"), rs.getString("Status"), rs.getInt("NumSeats"), rs.getDate("EntryDate")));
+                    count++;
+                }
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
     }
     private boolean validateDate(TextField textField){
         SimpleDateFormat dateFormat= new SimpleDateFormat("d/M/yyyy");
@@ -138,7 +196,6 @@ public class NewBookingController implements Initializable {
     }
     private boolean validatedInputFields(){
         Window owner=root.getScene().getWindow();
-        Date fromDate,toDate;
         int numDays;
         if(txtFrom.getText().isEmpty()){
             Dialog.showMessageDialog(owner, "Please enter required Date", "Missing Details", DialogIcon.WARNING);
@@ -196,8 +253,9 @@ public class NewBookingController implements Initializable {
                 }
                 fromDate = dateFormat.parse(txtFrom.getText());
                 calFrom.setTime(fromDate);
-                calFrom.add(Calendar.DAY_OF_MONTH, numDays);
+                calFrom.add(Calendar.DAY_OF_MONTH, numDays-1);
                 txtTo.setText(dateFormat.format(calFrom.getTime()));
+                toDate=calFrom.getTime();
             } catch (NumberFormatException numberFormatException) {
                 Dialog.showMessageDialog(owner, "Only Numeric values are accpected", "Invalid Input", DialogIcon.WARNING);
                 txtNum.requestFocus();
