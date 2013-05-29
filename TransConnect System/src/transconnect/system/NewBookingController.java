@@ -22,9 +22,11 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.ChoiceBox;
+import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TextField;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.Rectangle;
@@ -46,12 +48,17 @@ public class NewBookingController implements Initializable {
     @FXML private Line line;
     @FXML private AnchorPane root;
     @FXML private ListView<Vehicle> vehicleList;
+    @FXML private ListView<Driver> driverList;
+    @FXML private Label lblVehicle;
+    @FXML private Label lblDriver;
     
     private Connection con;
-    private ObservableList<Vehicle> data = FXCollections.observableArrayList();
+    private ObservableList<Vehicle> vehicleData = FXCollections.observableArrayList();
+    private ObservableList<Driver> driverData = FXCollections.observableArrayList();
     private ArrayList<Integer> vehicleIDList = new ArrayList<>();
+    private ArrayList<Integer> driverIDList = new ArrayList<>();
     private Date fromDate,toDate;
-    private int vehicleIndex;
+    private int vehicleIndex,driverIndex;
     /**
      * Initializes the controller class.
      */
@@ -71,7 +78,7 @@ public class NewBookingController implements Initializable {
             }
         });
         loadChoiceBox();
-        vehicleList.setItems(data);
+        vehicleList.setItems(vehicleData);
         vehicleList.setCellFactory(new Callback<ListView<Vehicle>, ListCell<Vehicle>>() {
 
             @Override
@@ -79,7 +86,18 @@ public class NewBookingController implements Initializable {
                 return new VehicleListCell();
             }
         });
+        driverList.setItems(driverData);
+        driverList.setCellFactory(new Callback<ListView<Driver>, ListCell<Driver>>() {
+
+            @Override
+            public ListCell<Driver> call(ListView<Driver> param) {
+                return new DriverListCell();
+            }
+        });
     }
+    /**
+     * Load ChoiceBox with the options available
+     */
     private void loadChoiceBox(){
         cbSeater.getItems().clear();
         String sql="select distinct NumSeats from vehicles";
@@ -94,67 +112,87 @@ public class NewBookingController implements Initializable {
         }
         cbSeater.getSelectionModel().clearAndSelect(0);
     }
-    @FXML private void loadVehicles(ActionEvent event){
-        data.clear();
-        vehicleIDList.clear();
+    /**
+     * Search to identify the available vehicles and drivers during the duration set
+     * @param event ActionEvent
+     */
+    @FXML private void search(ActionEvent event){
         if (validatedInputFields()) {
-            System.out.println("we are good");
-            String selected = cbSeater.getSelectionModel().getSelectedItem();
-            selected=selected.substring(0, 1);
-            int seats=Integer.parseInt(selected);
-            
-            String sql="select * from vehicles where NumSeats=?";
-            try (PreparedStatement prstmt= con.prepareStatement(sql)){
-                prstmt.setInt(1, seats);
-                ResultSet rs= prstmt.executeQuery();
-                while (rs.next()) {
-                    vehicleIDList.add(rs.getInt("VehicleID"));
-                }
-                rs.close();
-            } catch (SQLException ex) {
-                Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+            loadVehicles();
+            loadDrivers();
+        }
+    }
+    /**
+     * Search and list vehicles that are available in the duration set 
+     */
+    private void loadVehicles(){
+        vehicleData.clear();
+        vehicleIDList.clear();
+        String selected = cbSeater.getSelectionModel().getSelectedItem();
+        int end = selected.indexOf(" ");
+        selected=selected.substring(0, end);
+        int seats=Integer.parseInt(selected);
+        String sql="select * from vehicles where NumSeats=?";
+        try (PreparedStatement prstmt= con.prepareStatement(sql)){
+            prstmt.setInt(1, seats);
+            ResultSet rs= prstmt.executeQuery();
+            while (rs.next()) {
+                vehicleIDList.add(rs.getInt("VehicleID"));
             }
-            if(!vehicleIDList.isEmpty()){
-                for (int i = 0; i < vehicleIDList.size(); i++) {
-                    Integer id = vehicleIDList.get(i);
-                    vehicleIndex=id;
-                    sql = "select FromDate,ToDate from vehicle_schedule where VehicleID=? order by ToDate desc";
-                    try (PreparedStatement prstmt=con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)){
-                        prstmt.setInt(1, id);
-                        ResultSet rs=prstmt.executeQuery();
-                        CompareDates cd= new CompareDates();
-                        if(rs.next()){
-                            if((cd.greater(fromDate, rs.getDate("ToDate")))){
-                                //allow and exit
-                                addVehicle();
-                                continue;
-                            }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.less(fromDate, rs.getDate("FromDate"))){
-                                find(rs, rs.getRow(), rs.getDate("FromDate"));
-                            }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.greater(fromDate, rs.getDate("FromDate"))){
-                                //do not allow
-                            }
-                        }else{
+            rs.close();
+        } catch (SQLException ex) {
+            Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(!vehicleIDList.isEmpty()){
+            for (int i = 0; i < vehicleIDList.size(); i++) {
+                Integer id = vehicleIDList.get(i);
+                vehicleIndex=id;
+                sql = "select FromDate,ToDate from vehicle_schedule where VehicleID=? order by ToDate desc";
+                try (PreparedStatement prstmt=con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)){
+                    prstmt.setInt(1, id);
+                    ResultSet rs=prstmt.executeQuery();
+                    CompareDates cd= new CompareDates();
+                    if(rs.next()){
+                        if((cd.greater(fromDate, rs.getDate("ToDate")))){
+                            //allow and exit
                             addVehicle();
+                            continue;
+                        }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.less(fromDate, rs.getDate("FromDate"))){
+                            searchVehicle(rs, rs.getRow(), rs.getDate("FromDate"));
+                        }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.greater(fromDate, rs.getDate("FromDate"))){
+                            //do not allow
                         }
-                        rs.close();
-                    } catch (SQLException ex) {
-                        Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+                    }else{
+                        addVehicle();
                     }
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
     }
-    private void find(ResultSet rs,int index,Date prevDate) throws SQLException{
+    /**
+     * A recursive search to identify whether a vehicle is available in the prescribed duration
+     * @param rs ResultSet
+     * @param index Integer ResultSet row to check
+     * @param prevDate Date FromDate - from Vehicle_Schedule table
+     * @throws SQLException 
+     */
+    private void searchVehicle(ResultSet rs,int index,Date prevDate) throws SQLException{
         if(rs.absolute(index)){
             CompareDates cd= new CompareDates();
             if(cd.greater(fromDate, rs.getDate("ToDate")) && cd.less(toDate, prevDate)){
                 //allow and exit
                 addVehicle();
             }else if(cd.less(toDate, rs.getDate("FromDate"))){
-                find(rs, index+1, rs.getDate("FromDate"));
+                searchVehicle(rs, index+1, rs.getDate("FromDate"));
             }
         }
     }
+    /**
+     * Add new vehicle to available vehicles ListView
+     */
     private void addVehicle(){
         String sql="select * from vehicles where VehicleID=?";
             try (PreparedStatement prstmt= con.prepareStatement(sql)){
@@ -162,7 +200,7 @@ public class NewBookingController implements Initializable {
             try (ResultSet rs = prstmt.executeQuery()) {
                 int count=1;
                 while (rs.next()) {                    
-                    data.add(new Vehicle(rs.getInt("VehicleID"),count, rs.getString("Registration"), rs.getString("Model"), rs.getString("Status"), rs.getInt("NumSeats"), rs.getDate("EntryDate")));
+                    vehicleData.add(new Vehicle(rs.getInt("VehicleID"),count, rs.getString("Registration"), rs.getString("Model"), rs.getString("Status"), rs.getInt("NumSeats"), rs.getDate("EntryDate")));
                     count++;
                 }
             }
@@ -170,11 +208,97 @@ public class NewBookingController implements Initializable {
                 Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
             }
     }
+    /**
+     * Search and list drivers that are available in the duration set 
+     */
+    private void loadDrivers(){
+        driverData.clear();
+        driverIDList.clear();
+            
+        String sql="select DriverID from Drivers";
+        try (PreparedStatement prstmt= con.prepareStatement(sql);
+                ResultSet rs= prstmt.executeQuery()){
+            while (rs.next()) {
+                driverIDList.add(rs.getInt("DriverID"));
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        if(!driverIDList.isEmpty()){
+            for (int i = 0; i < driverIDList.size(); i++) {
+                Integer id = driverIDList.get(i);
+                driverIndex=id;
+                sql = "select FromDate,ToDate from driver_schedule where DriverID=? order by ToDate desc";
+                try (PreparedStatement prstmt=con.prepareStatement(sql,ResultSet.TYPE_SCROLL_INSENSITIVE,ResultSet.CONCUR_READ_ONLY)){
+                    prstmt.setInt(1, id);
+                    ResultSet rs=prstmt.executeQuery();
+                    CompareDates cd= new CompareDates();
+                    if(rs.next()){
+                        if((cd.greater(fromDate, rs.getDate("ToDate")))){
+                            //allow and exit
+                            addDriver();
+                            continue;
+                        }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.less(fromDate, rs.getDate("FromDate"))){
+                            searchDriver(rs, rs.getRow(), rs.getDate("FromDate"));
+                        }else if(cd.less(fromDate, rs.getDate("ToDate")) && cd.greater(fromDate, rs.getDate("FromDate"))){
+                            //do not allow
+                        }
+                    }else{
+                        addDriver();
+                    }
+                    rs.close();
+                } catch (SQLException ex) {
+                    Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+        }
+    }
+    /**
+     * A recursive search to identify whether a driver is available in the prescribed duration
+     * @param rs ResultSet
+     * @param index Integer ResultSet row to check
+     * @param prevDate Date FromDate - from Driver_Schedule table
+     * @throws SQLException 
+     */
+    private void searchDriver(ResultSet rs,int index,Date prevDate) throws SQLException{
+        if(rs.absolute(index)){
+            CompareDates cd= new CompareDates();
+            if(cd.greater(fromDate, rs.getDate("ToDate")) && cd.less(toDate, prevDate)){
+                //allow and exit
+                addDriver();
+            }else if(cd.less(toDate, rs.getDate("FromDate"))){
+                searchDriver(rs, index+1, rs.getDate("FromDate"));
+            }
+        }
+    }
+    /**
+     * Add new driver to drivers ListView
+     */
+    private void addDriver(){
+        String sql="select * from drivers where DriverID=?";
+            try (PreparedStatement prstmt= con.prepareStatement(sql)){
+                prstmt.setInt(1, driverIndex);
+            try (ResultSet rs = prstmt.executeQuery()) {
+                String name;
+                while (rs.next()) {
+                    name=rs.getString("FirstName")+" "+rs.getString("LastName")+" "+rs.getString("Surname");
+                    driverData.add(new Driver(rs.getInt("DriverID"), name, rs.getString("Mobile"), rs.getString("Status"), rs.getDate("EntryDate")));
+                }
+            }
+            } catch (SQLException ex) {
+                Logger.getLogger(NewBookingController.class.getName()).log(Level.SEVERE, null, ex);
+            }
+    }
+    /**
+     * Validate the String Dates entered during input process
+     * @param textField TextField
+     * @return True if everything is correct
+     */
     private boolean validateDate(TextField textField){
         SimpleDateFormat dateFormat= new SimpleDateFormat("d/M/yyyy");
         try {
             Date date=dateFormat.parse(textField.getText());
-            Calendar currentCal=Calendar.getInstance();
+            Calendar currentCal=Calendar.getInstance();//current Date
             Calendar enteredCal=Calendar.getInstance();
             enteredCal.setTime(date);
             textField.setText(dateFormat.format(date));
@@ -187,6 +311,12 @@ public class NewBookingController implements Initializable {
                     return false;
                 }
             }
+            currentCal.add(Calendar.MONTH, 6);
+            if(enteredCal.after(currentCal)){
+                Dialog.showMessageDialog(root.getScene().getWindow(), "Sorry you can not set a Date more than 6 months into the future", "Invalid Date", DialogIcon.WARNING);
+                textField.requestFocus();
+                return false;
+            }
         } catch (ParseException ex) {
             Dialog.showMessageDialog(root.getScene().getWindow(), "Invalid Date", "Invalid Date", DialogIcon.WARNING);
             textField.requestFocus();
@@ -194,6 +324,10 @@ public class NewBookingController implements Initializable {
         }
         return true;
     }
+    /**
+     * Validate all input fields continuing
+     * @return True if everything is correct
+     */
     private boolean validatedInputFields(){
         Window owner=root.getScene().getWindow();
         int numDays;
@@ -216,7 +350,7 @@ public class NewBookingController implements Initializable {
                     fromDate = dateFormat.parse(strFromDate);
                     toDate = dateFormat.parse(strToDate);
                     if (!strFromDate.equals(strToDate)) {
-                        if (toDate.before(fromDate)) {//To date comes befor From date
+                        if (toDate.before(fromDate)) {//To date comes before From date
                             Dialog.showMessageDialog(owner, "Your To date can not come before From date", "Invalid Dates", DialogIcon.WARNING);
                             txtTo.requestFocus();
                             return false;
@@ -273,5 +407,35 @@ public class NewBookingController implements Initializable {
         }
         return true;
     }
-
+    
+    @FXML private void selectVehicle(MouseEvent event){
+        if(!vehicleList.getSelectionModel().isEmpty()){
+            Vehicle v= vehicleList.getSelectionModel().getSelectedItem();
+            lblVehicle.setText(v.getModel()+" "+v.getRegistration());
+        }
+    }
+    @FXML private void selectDriver(MouseEvent event){
+        if(!driverList.getSelectionModel().isEmpty()){
+            Driver d= driverList.getSelectionModel().getSelectedItem();
+            lblDriver.setText(d.getName());
+        }
+    }
+    @FXML private void cancle(ActionEvent event){
+        txtFrom.setText("");
+        txtTo.setText("");
+        txtNum.setText("");
+        vehicleData.clear();
+        driverData.clear();
+        lblVehicle.setText("");
+        lblDriver.setText("");
+        txtFrom.requestFocus();
+    }
+    @FXML private void next(ActionEvent event){
+        if(lblVehicle.getText().isEmpty() || lblVehicle.getText().isEmpty()){
+            Dialog.showMessageDialog(root.getScene().getWindow(), "Please select one Vehicle and Driver before continuing", "Missing Details", DialogIcon.INFORMATION);
+            return;
+        }
+        //show next window
+        System.out.println("we good");
+    }
 }

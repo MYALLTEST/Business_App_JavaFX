@@ -108,6 +108,10 @@ public class MainWindowController implements Initializable {
         Stage stage= new CustWindow().getStage("New Booking", "newBooking.fxml", root.getScene().getWindow(),false,false);
         stage.show();
     }
+    @FXML private void showCalendar(ActionEvent event){
+        Stage stage= new CustWindow().getStage("Calendar", "calendarPrev.fxml", root.getScene().getWindow(),false,false);
+        stage.show();
+    }
     /**
      * Grant Action access depending on account type
      * @param accountType String

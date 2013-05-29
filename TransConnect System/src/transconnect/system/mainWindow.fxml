@@ -13,7 +13,7 @@
 
 <BorderPane id="BorderPane" fx:id="root" disable="false" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.MainWindowController">
   <bottom>
-    <ToolBar fx:id="taskBar" onMouseEntered="#taskBarMouseEnter" onMouseExited="#taskBarMouseExit">
+    <ToolBar fx:id="taskBar" styleClass="status-Bar">
       <items>
         <ImageView fx:id="iv" fitHeight="15.0" fitWidth="20.0" pickOnBounds="true" preserveRatio="true" />
         <Label fx:id="lblUser" onMouseClicked="#userShowProfile" prefWidth="240.0" text="" />
@@ -79,6 +79,7 @@
           <items>
             <MenuItem mnemonicParsing="false" onAction="#showUsersProfile" text="Users Profile" />
             <MenuItem mnemonicParsing="false" onAction="#showMyProfile" text="My Profile" />
+            <MenuItem mnemonicParsing="false" onAction="#showCalendar" text="Calendar" />
           </items>
         </Menu>
         <Menu mnemonicParsing="false" text="Help">

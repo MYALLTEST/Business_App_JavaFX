@@ -23,7 +23,6 @@ public class CompareDates {
     private boolean equals(Date date1,Date date2){
         String str1=dateFormat.format(date1);// eg 23/5/2013
         String str2=dateFormat.format(date2);// eg 23/5/2013 then both dates are equal
-        System.out.println("equals checking");
         return str1.equals(str2);
     }
     
@@ -34,7 +33,6 @@ public class CompareDates {
      * @return Boolean True if less than else False
      */
     public boolean greater(Date date1,Date date2){
-        System.out.println("checking greater");
         if(equals(date1, date2)){
             return false;
         }
@@ -53,7 +51,6 @@ public class CompareDates {
      * @return Boolean True if less than else False
      */
     public boolean less(Date date1,Date date2){
-        System.out.println("checking less");
         if(equals(date1, date2)){
             return false;
         }

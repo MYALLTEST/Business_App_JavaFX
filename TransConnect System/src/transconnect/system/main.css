@@ -26,3 +26,18 @@
     -fx-font: bold 12px "Tahoma";
     /*-fx-font-weight:bold;*/
 }
+.status-Bar{
+    -fx-cursor: hand;
+}
+.calendar{
+    /*-fx-base: #E9FF55;
+    -fx-background-color: linear-gradient( to bottom, derive(-fx-color, 34.0%) 0%, derive(-fx-color, -18.0%) 100%);
+    */-fx-cursor: hand;
+    -fx-border-color: black;
+    -fx-border-style: solid;
+    -fx-text-fill: derive(silver,-60%);
+    -fx-font: normal 16px "Tahoma";
+}
+.grid{
+    -fx-background-color: #E9FF55;
+}

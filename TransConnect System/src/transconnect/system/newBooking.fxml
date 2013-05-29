@@ -12,7 +12,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="root" prefHeight="400.0" prefWidth="600.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.NewBookingController">
   <children>
-    <Group id="Group" layoutX="1.0" layoutY="1.0" scaleX="1.0" scaleY="1.0">
+    <Group id="Group" layoutX="0.0" layoutY="0.0" scaleX="1.0" scaleY="1.0">
       <children>
         <Rectangle fx:id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" styleClass="rect" width="600.0" />
         <Label alignment="CENTER_LEFT" layoutX="14.0" layoutY="14.0" prefHeight="41.0" prefWidth="343.0" styleClass="form-title" text="New Booking">
@@ -56,26 +56,26 @@
         </FXCollections>
       </items>
     </ChoiceBox>
+    <Button layoutX="341.0" layoutY="137.0" mnemonicParsing="false" onAction="#search" prefHeight="21.0001220703125" prefWidth="67.0" text="Search" />
     <Label alignment="CENTER" contentDisplay="LEFT" layoutX="11.0" layoutY="171.0" prefWidth="200.0" text="Available Vehicles" textAlignment="LEFT" underline="false" />
-    <ListView fx:id="vehicleList" layoutX="11.0" layoutY="186.0" prefHeight="142.0" prefWidth="200.0" />
+    <ListView fx:id="vehicleList" layoutX="11.0" layoutY="186.0" onMouseClicked="#selectVehicle" prefHeight="142.0" prefWidth="200.0" />
     <Label alignment="CENTER" layoutX="246.0" layoutY="171.0" prefWidth="200.0" text="Available Drivers" />
-    <ListView layoutX="246.0" layoutY="186.0" prefHeight="142.0" prefWidth="200.0" />
+    <ListView fx:id="driverList" layoutX="246.0" layoutY="186.0" onMouseClicked="#selectDriver" prefHeight="142.0" prefWidth="200.0" />
     <Label layoutX="11.0" layoutY="334.0" text="Please select One Vehicle and One Driver" />
     <HBox id="HBox" alignment="CENTER" layoutX="427.0" layoutY="363.0" spacing="5.0">
       <children>
-        <Button defaultButton="true" mnemonicParsing="false" text="Contunie" />
-        <Button mnemonicParsing="false" text="Cancel" />
+        <Button defaultButton="true" mnemonicParsing="false" onAction="#next" text="Contunie" />
+        <Button cancelButton="true" mnemonicParsing="false" onAction="#cancle" text="Cancel" />
       </children>
     </HBox>
     <HBox id="HBox" alignment="CENTER" layoutX="11.0" layoutY="363.0" spacing="7.0">
       <children>
         <Label text="Vehicle" />
-        <Label prefWidth="147.0" text="Label" />
+        <Label fx:id="lblVehicle" prefWidth="147.0" text="" />
         <Label text="Driver" />
-        <Label prefWidth="147.0" text="Label" />
+        <Label fx:id="lblDriver" prefWidth="147.0" text="" />
       </children>
     </HBox>
-    <Button layoutX="341.0" layoutY="136.0" mnemonicParsing="false" onAction="#loadVehicles" prefHeight="26.0" prefWidth="67.0" text="Search" />
   </children>
   <stylesheets>
     <URL value="@main.css" />
