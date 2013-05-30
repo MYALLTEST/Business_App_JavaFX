@@ -10,9 +10,14 @@
 .rect{
     -fx-stroke-width: 0;
     -fx-fill: #dfdfdf;
+    
 }
 .login-TextField{
    -fx-font-size: 18px;
+}
+.login-rect{
+    -fx-stroke-width: 0;
+    -fx-fill: whitesmoke;
 }
 .form-title{
    -fx-font-size: 22px;
@@ -21,6 +26,7 @@
     -fx-base: #4CCADF;
     -fx-fill: linear-gradient( to bottom, derive(-fx-color, 34.0%) 0%, derive(-fx-color, -18.0%) 100%);
     -fx-stroke-width: 0;
+    
 }
 .notification-Title{
     -fx-font: bold 12px "Tahoma";
@@ -33,8 +39,6 @@
     /*-fx-base: #E9FF55;
     -fx-background-color: linear-gradient( to bottom, derive(-fx-color, 34.0%) 0%, derive(-fx-color, -18.0%) 100%);
     */-fx-cursor: hand;
-    -fx-border-color: black;
-    -fx-border-style: solid;
     -fx-text-fill: derive(silver,-60%);
     -fx-font: normal 16px "Tahoma";
 }

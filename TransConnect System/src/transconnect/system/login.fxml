@@ -11,6 +11,7 @@
 
 <AnchorPane id="AnchorPane" fx:id="root" prefHeight="261.0" prefWidth="396.0" styleClass="root" xmlns:fx="http://javafx.com/fxml" fx:controller="transconnect.system.LoginController">
   <children>
+    <Rectangle fx:id="rect" arcHeight="5.0" arcWidth="5.0" fill="DODGERBLUE" height="193.0" layoutX="0.0" layoutY="69.0" stroke="BLACK" strokeType="INSIDE" styleClass="login-rect" width="398.0" />
     <Group id="Group" layoutX="0.0" layoutY="0.0">
       <children>
         <Rectangle id="rect" arcHeight="0.0" arcWidth="0.0" fill="#dfdfdf" height="69.0" layoutX="0.0" layoutY="0.0" smooth="true" stroke="BLACK" strokeType="INSIDE" styleClass="rect" width="397.0" />

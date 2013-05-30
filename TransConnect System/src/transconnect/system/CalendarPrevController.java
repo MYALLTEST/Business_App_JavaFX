@@ -35,8 +35,7 @@ public class CalendarPrevController implements Initializable {
     
    
     private int month;
-    private ObservableList<Node> displayNodes;
-    private ObservableList<Node> hiddenNodes;
+    private int count=1;
     /**
      * Initializes the controller class.
      */
@@ -45,9 +44,7 @@ public class CalendarPrevController implements Initializable {
         // TODO 
         gp.setUserData("display");
         gp2.setUserData("hidden");
-        displayNodes = getDisplayPane().getChildren();
-        hiddenNodes = getHiddenPane().getChildren();
-        initial(month, true,displayNodes);
+        setCalendar(month, true,getDisplayPane().getChildren());
     }
     @FXML private void set(ActionEvent event){
         ObservableList<Node> nodes=gp.getChildren();
@@ -66,13 +63,14 @@ public class CalendarPrevController implements Initializable {
         lbl.setText(txtText.getText());
     }
     @FXML private void setValues(ActionEvent event){
-        initial(0,false,getHiddenPane().getChildren());
+        setCalendar(0,false,getDisplayPane().getChildren());
+        month=0;
     }
     @FXML private void previous(ActionEvent event){
+        statusPane();
         month--;
-        initial(month,true,getHiddenPane().getChildren());
+        setCalendar(month,true,getHiddenPane().getChildren());
         getHiddenPane().setLayoutX(-350);
-        getDisplayPane().setLayoutX(0);
         KeyValue kv = new KeyValue(getDisplayPane().layoutXProperty(), 350);//move displayed gridpane to x=350
         KeyValue kv1 = new KeyValue(getHiddenPane().layoutXProperty(), 0);//move hidden gridpane to x=0
         KeyFrame frame = new KeyFrame(Duration.seconds(3), kv,kv1);
@@ -81,19 +79,21 @@ public class CalendarPrevController implements Initializable {
 
             @Override
             public void handle(ActionEvent event) {//once gridpanes have move to their new positions change their userdata
-                getHiddenPane().setUserData("display");// to represent their current status whether displaying or hidden
-                getDisplayPane().setUserData("hidden");// set hidden gridpane to the expected layoutX
-                displayNodes = getDisplayPane().getChildren();
-                hiddenNodes = getHiddenPane().getChildren();
+                GridPane hidden = getHiddenPane();
+                GridPane display = getDisplayPane();
+                hidden.setUserData("display");// to represent their current status whether displaying or hidden
+                display.setUserData("hidden");// set hidden gridpane to the expected layoutX
+                System.out.println("method called previous");
+                statusPane();
             }
         });
         timeline.play();
     }
     @FXML private void next(ActionEvent event){
+        statusPane();
         month++;
-        initial(month,true,getHiddenPane().getChildren());
+        setCalendar(month,true,getHiddenPane().getChildren());
         getHiddenPane().setLayoutX(350);
-        getDisplayPane().setLayoutX(0);
         KeyValue kv = new KeyValue(getDisplayPane().layoutXProperty(), -350);//move displayed gridpane to x=-350
         KeyValue kv1 = new KeyValue(getHiddenPane().layoutXProperty(), 0);//move hidden gridpane to x=0
         KeyFrame frame = new KeyFrame(Duration.seconds(3), kv,kv1);
@@ -102,17 +102,17 @@ public class CalendarPrevController implements Initializable {
 
             @Override
             public void handle(ActionEvent event) {//once gridpanes have move to their new positions change their userdata
-                getHiddenPane().setUserData("display");// to represent their current status whether displaying or hidden
-                getDisplayPane().setUserData("hidden");// set hidden gridpane to the expected layoutX
-                displayNodes = getDisplayPane().getChildren();
-                hiddenNodes = getHiddenPane().getChildren();
+                GridPane hidden = getHiddenPane();
+                GridPane display = getDisplayPane();
+                hidden.setUserData("display");// to represent their current status whether displaying or hidden
+                display.setUserData("hidden");// set hidden gridpane to the expected layoutX
+                System.out.println("method called next");
+                statusPane();
             }
         });
         timeline.play();
     }
-    private void initial(int val,boolean change,ObservableList<Node> nodes){
-        //nodes 0-41
-        //ObservableList<Node> nodes=getHiddenPane().getChildren();
+    private void setCalendar(int val,boolean change,ObservableList<Node> nodes){
         SimpleDateFormat dateFormat= new SimpleDateFormat("MMMM, yyyy");
         Calendar cal=Calendar.getInstance();
         Calendar cal2=Calendar.getInstance();
@@ -135,15 +135,19 @@ public class CalendarPrevController implements Initializable {
         for (int i = 0; i < (startMonthVal-1); i++) {
             Label lbl = (Label) nodes.get(i);
             lbl.setText(Integer.toString(prevMonthEndVal));
+            lbl.setDisable(true);
             prevMonthEndVal++;
         }
         
         int day=1;
+        boolean disable=false;
         for (int i = (startMonthVal-1); i < 42; i++) {
             Label lbl = (Label) nodes.get(i);
             lbl.setText(Integer.toString(day));
+            lbl.setDisable(disable);
             if(day==endMonthVal){
                 day=0;
+                disable=true;
             }
             day++;
         }
@@ -162,5 +166,14 @@ public class CalendarPrevController implements Initializable {
         }else{
             return gp2;
         }
+    }
+    private void statusPane(){
+        System.out.println("--------------------count="+count+"--------------------------");
+        String str=(String) gp.getUserData();
+        System.out.println("gp: "+str);
+        String str2=(String) gp2.getUserData();
+        System.out.println("gp2: "+str2);
+        System.out.println("--------------------count="+count+"--------------------------");
+        count++;
     }
 }

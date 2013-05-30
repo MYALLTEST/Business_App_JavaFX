@@ -10,6 +10,9 @@ import java.sql.SQLException;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.animation.FillTransition;
+import javafx.animation.FillTransitionBuilder;
+import javafx.animation.Timeline;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -22,8 +25,11 @@ import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import javafx.util.Duration;
 
 /**
  * FXML Controller class
@@ -35,6 +41,7 @@ public class LoginController implements Initializable {
     @FXML private Label lblTitle;
     @FXML private TextField txtUser;
     @FXML private PasswordField txtPass;
+    @FXML private Rectangle rect;
     @FXML private AnchorPane root;
     
     private Connection con;
@@ -50,6 +57,17 @@ public class LoginController implements Initializable {
         } catch (SQLException ex) {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
+        Color c= Color.web("#4CCADF");
+        Color c1=Color.web("#E9FF55");
+        FillTransition fillTransition= FillTransitionBuilder.create()
+                .fromValue(c)
+                .toValue(c1)
+                .autoReverse(true)
+                .duration(Duration.seconds(4))
+                .cycleCount(Timeline.INDEFINITE)
+                .shape(rect)
+                .build();
+        fillTransition.play();
     }    
     @FXML private void login(ActionEvent event){
         if(count>3){
